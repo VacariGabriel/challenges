@@ -1,5 +1,5 @@
 const request = require('supertest');
-const server = require('../../src/server');
+const app = require('../../src/server');
 
 describe('Authentication', () => {
   it('should authenticate with valid credentials', async () => {
@@ -8,7 +8,7 @@ describe('Authentication', () => {
       senha: 'example123',
     };
 
-    const response = await request(server).post('/login').send({
+    const response = await request(app).post('/login').send({
       login: heroi.login,
       senha: heroi.senha,
     });
