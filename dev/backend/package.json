@@ -4,7 +4,8 @@
   "description": "Sistema de gerenciamento de distribuição de Heros para combater ameaças.",
   "main": "index.js",
   "scripts": {
-    "knex:migrate": "knex migrate:latest --knexfile knexfile.js"
+    "knex:migrate": "knex migrate:latest --knexfile knexfile.js",
+    "knex:seed": "knex seed:run --knexfile knexfile.js"
   },
   "author": "Gabriel Vacari",
   "license": "ISC",
