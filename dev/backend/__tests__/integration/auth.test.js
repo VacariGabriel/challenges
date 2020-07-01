@@ -14,6 +14,7 @@ describe('Authentication', () => {
     });
 
     expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty('token');
   });
 
   it("shouldn't authenticate with invalid credentials", async () => {
@@ -27,6 +28,6 @@ describe('Authentication', () => {
       password: heroi.senha,
     });
 
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(401);
   });
 });
