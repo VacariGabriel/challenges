@@ -2,69 +2,69 @@ const request = require('supertest');
 const app = require('../../src/server');
 const generateToken = require('../../src/utils/token');
 
-const HEROI = {
-  nome: 'Flash-test',
+const HERO = {
+  name: 'Flash-test',
   login: 'flash-test',
-  senha: '123123',
+  password: '123123',
   lat: -23.5629,
   lng: -46.6544,
   rank: 'S',
 };
 
-const HEROI_UPDATE = { id: 1, nome: 'Flash - Atualizado', rank: 'B' };
+const HERO_UPDATE = { id: 1, name: 'Flash - Atualizado', rank: 'B' };
 
-describe("Tests for 'herois'", () => {
+describe('Tests for heroes', () => {
   it("shouldn't access authorized routes without token", async () => {
     const response = await request(app).get('/authorized/herois');
 
     expect(response.status).toBe(401);
   });
 
-  it("should create new 'heroi' - 201", async () => {
+  it('should create new hero - 201', async () => {
     const response = await request(app)
       .post('/authorized/herois')
-      .set('Authorization', `Bearer ${generateToken(HEROI.login)}`)
+      .set('Authorization', `Bearer ${generateToken(HERO.login)}`)
       .send({
-        nome: HEROI.nome,
-        login: HEROI.login,
-        senha: HEROI.senha,
-        lat: HEROI.lat,
-        lng: HEROI.lng,
-        rank: HEROI.rank,
+        name: HERO.name,
+        login: HERO.login,
+        password: HERO.password,
+        lat: HERO.lat,
+        lng: HERO.lng,
+        rank: HERO.rank,
       });
 
     expect(response.status).toBe(201);
   });
 
-  it("shouldn't create 'heroi' without a property - 400", async () => {
+  it("shouldn't create hero without a property - 400", async () => {
     const response = await request(app)
       .post('/authorized/herois')
-      .set('Authorization', `Bearer ${generateToken(HEROI.login)}`)
+      .set('Authorization', `Bearer ${generateToken(HERO.login)}`)
       .send({
-        nome: HEROI.nome,
-        login: HEROI.login,
-        senha: HEROI.senha,
-        rank: HEROI.rank,
+        name: HERO.name,
+        login: HERO.login,
+        password: HERO.password,
+        rank: HERO.rank,
       });
 
     expect(response.status).toBe(400);
   });
 
-  it("should get all 'herois' - 200", async () => {
+  it('should get all heroes - 200', async () => {
     const response = await request(app)
       .get('/authorized/herois')
-      .set('Authorization', `Bearer ${generateToken(HEROI.login)}`);
+      .set('Authorization', `Bearer ${generateToken(HERO.login)}`);
 
     expect(response.status).toBe(200);
-    expect(response.body[0]).toHaveProperty('nome');
+    expect(response.body[0]).toHaveProperty('name');
   });
 
-  it("shouldn't delete 'heroi' by id - 204", async () => {
+  it("shouldn't delete hero by id - 204", async () => {
     const id = 100;
 
     const response = await request(app)
       .delete('/authorized/herois')
-      .set('Authorization', `Bearer ${generateToken(HEROI.login)}`)
+      .set('Authorization', `Bearer ${generateToken(HERO.login)}`)
       .send({
         id,
       });
@@ -72,14 +72,14 @@ describe("Tests for 'herois'", () => {
     expect(response.status).toBe(204);
   });
 
-  it("should update 'heroi' - 200", async () => {
+  it('should update hero - 200', async () => {
     const response = await request(app)
       .put('/authorized/herois')
-      .set('Authorization', `Bearer ${generateToken(HEROI.login)}`)
+      .set('Authorization', `Bearer ${generateToken(HERO.login)}`)
       .send({
-        id: HEROI_UPDATE.id,
-        nome: HEROI_UPDATE.nome,
-        rank: HEROI_UPDATE.rank,
+        id: HERO_UPDATE.id,
+        name: HERO_UPDATE.name,
+        rank: HERO_UPDATE.rank,
       });
 
     expect(response.status).toBe(200);
@@ -88,11 +88,11 @@ describe("Tests for 'herois'", () => {
   it("shouldn't update 'heroi' - 200", async () => {
     const response = await request(app)
       .put('/authorized/herois')
-      .set('Authorization', `Bearer ${generateToken(HEROI.login)}`)
+      .set('Authorization', `Bearer ${generateToken(HERO.login)}`)
       .send({
         id: 10000,
-        nome: HEROI_UPDATE.nome,
-        rank: HEROI_UPDATE.rank,
+        nome: HERO_UPDATE.nome,
+        rank: HERO_UPDATE.rank,
       });
 
     expect(response.status).toBe(204);

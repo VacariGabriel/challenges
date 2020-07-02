@@ -3,14 +3,14 @@ const app = require('../../src/server');
 
 describe('Authentication', () => {
   it('should authenticate with valid credentials', async () => {
-    const heroi = {
+    const hero = {
       login: 'bat',
       senha: '123',
     };
 
     const response = await request(app).post('/login').send({
-      login: heroi.login,
-      password: heroi.senha,
+      login: hero.login,
+      password: hero.senha,
     });
 
     expect(response.status).toBe(200);

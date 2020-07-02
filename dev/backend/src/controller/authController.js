@@ -2,10 +2,10 @@ const bcrypt = require('bcryptjs');
 const knex = require('../database/connection');
 const generateToken = require('../utils/token');
 
-const login = async (request, response) => {
+const authLogin = async (request, response) => {
   const { login, password } = request.body;
 
-  knex('herois')
+  knex('hero')
     .select('*')
     .where({ login })
     .then(async (result) => {
@@ -13,7 +13,10 @@ const login = async (request, response) => {
         return response.status(401).json({ message: 'Login inválido' });
       }
 
-      const isValidPassword = await bcrypt.compare(password, result[0].senha);
+      const isValidPassword = await bcrypt.compare(
+        password,
+        result[0].password
+      );
 
       if (!isValidPassword) {
         return response.status(401).json({ message: 'Senha inválida' });
@@ -22,10 +25,10 @@ const login = async (request, response) => {
       const token = generateToken(result[0].login);
 
       return response.status(200).json({
-        message: 'Sucesso',
+        message: 'Login realizado com sucesso',
         token,
       });
     });
 };
 
-module.exports = login;
+module.exports = authLogin;

@@ -2,15 +2,15 @@ const bcrypt = require('bcryptjs');
 const knex = require('../database/connection');
 
 const create = async (request, response) => {
-  const { nome, login, senha, lat, lng, rank } = request.body;
+  const { name, login, password, lat, lng, rank } = request.body;
 
-  const passwordEncrypted = bcrypt.hashSync(senha, 10);
+  const passwordEncrypted = bcrypt.hashSync(password, 10);
 
-  await knex('herois')
+  await knex('hero')
     .insert({
-      nome,
+      name,
       login,
-      senha: passwordEncrypted,
+      password: passwordEncrypted,
       lat,
       lng,
       rank,
@@ -24,7 +24,7 @@ const create = async (request, response) => {
 };
 
 const getAll = async (request, response) => {
-  await knex('herois')
+  await knex('hero')
     .select('*')
     .then((data) => {
       if (!data) {
@@ -33,11 +33,11 @@ const getAll = async (request, response) => {
           .json({ message: 'Nenhum herói cadastrado ' });
       }
 
-      const cleanData = data.map((heroi) => {
-        delete heroi.login;
-        delete heroi.senha;
+      const cleanData = data.map((hero) => {
+        delete hero.login;
+        delete hero.password;
 
-        return heroi;
+        return hero;
       });
 
       return response.status(200).json(cleanData);
@@ -56,7 +56,7 @@ const deleteHeroi = async (request, response) => {
     return response.status(400).json({ message: 'ID do herói é obrigatório ' });
   }
 
-  await knex('herois')
+  await knex('hero')
     .where({ id })
     .delete()
     .then((data) => {
@@ -76,12 +76,12 @@ const deleteHeroi = async (request, response) => {
 };
 
 const update = async (request, response) => {
-  const { id, nome, lat, lng, rank } = request.body;
+  const { id, name, lat, lng, rank } = request.body;
 
-  knex('herois')
+  knex('hero')
     .where({ id })
     .update({
-      nome,
+      name,
       lat,
       lng,
       rank,
