@@ -1,9 +1,7 @@
 async function up(knex) {
-  return knex.schema.createTable('herois', (table) => {
+  return knex.schema.createTable('threat', (table) => {
     table.increments('id').primary();
-    table.string('nome').notNullable();
-    table.string('login').notNullable();
-    table.string('senha').notNullable();
+    table.string('name').notNullable();
     table.decimal('lat').notNullable();
     table.decimal('lng').notNullable();
     table.string('rank').notNullable();
@@ -11,7 +9,7 @@ async function up(knex) {
 }
 
 async function down(knex) {
-  return knex.schema.dropTable('herois');
+  return knex.schema.dropTable('threat');
 }
 
 module.exports = {
