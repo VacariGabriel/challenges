@@ -4,7 +4,7 @@ const {
   getAll,
   deleteHeroi,
   update,
-} = require('./controller/heroisController');
+} = require('./controller/heroesController');
 
 const login = require('./controller/authController');
 
