@@ -1,6 +1,7 @@
 const priority = require('./priority.json');
 const haversineCalc = require('../utils/haversine');
 const knex = require('../database/connection');
+const { update } = require('../database/connection');
 
 async function getHerois(rank) {
   const herois = await knex('hero')
@@ -38,22 +39,31 @@ async function saveHeroHistoric(historicId, heroId) {
   return id;
 }
 
-async function heroForOccurrence(data) {
+async function allocateHero(hero) {
+  knex('hero').where({ id: hero.id }).update({
+    lat: hero.lat,
+    lng: hero.lng,
+  });
+}
+
+async function heroForOccurrence(dataParameter) {
+  const { dangerLevel, location } = dataParameter;
+
   const [heroThreat] = priority.priorities.filter((threat) => {
-    if (threat.dangerLevel === data.dangerLevel) {
+    if (threat.dangerLevel === dangerLevel) {
       return threat;
     }
   });
 
   const heroes = await getHerois(heroThreat.rank);
 
-  const heroDefeatThreat = heroes
+  let heroDefeatThreat = heroes
     .map((hero) => {
       return {
         ...hero,
         distance: haversineCalc(
-          data.location[0].lat,
-          data.location[0].lng,
+          location[0].lat,
+          location[0].lng,
           hero.lat,
           hero.lng
         ),
@@ -63,9 +73,17 @@ async function heroForOccurrence(data) {
       return current.distance < final.distance ? current : final;
     });
 
+  heroDefeatThreat = {
+    ...heroDefeatThreat,
+    lat: location[0].lat,
+    lng: location[0].lng,
+  };
+
+  allocateHero(heroDefeatThreat);
+
   delete heroDefeatThreat.distance;
 
-  const idAmeaca = await saveThreat(data);
+  const idAmeaca = await saveThreat(dataParameter);
   const idHistorico = await saveHistoric(idAmeaca, heroDefeatThreat.id);
   await saveHeroHistoric(idHistorico, heroDefeatThreat.id);
 }
