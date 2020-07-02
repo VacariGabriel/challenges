@@ -4,8 +4,7 @@ const knex = require('../database/connection');
 const create = async (request, response) => {
   const { nome, login, senha, lat, lng, rank } = request.body;
 
-  const salt = bcrypt.genSaltSync(10);
-  const passwordEncrypted = bcrypt.hashSync(senha, salt);
+  const passwordEncrypted = bcrypt.hashSync(senha, 10);
 
   await knex('herois')
     .insert({
@@ -62,9 +61,7 @@ const deleteHeroi = async (request, response) => {
     .delete()
     .then((data) => {
       if (data === 0) {
-        return response
-          .status(204)
-          .json({ message: 'Não existe herói com esse ID' });
+        return response.status(204).send();
       }
 
       return response
@@ -91,9 +88,7 @@ const update = async (request, response) => {
     })
     .then((result) => {
       if (result === 0) {
-        return response
-          .status(200)
-          .json({ message: 'Nenhum herói com esse id foi encontrado' });
+        return response.status(204).send();
       }
 
       return response

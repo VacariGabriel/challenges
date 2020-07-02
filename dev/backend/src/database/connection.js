@@ -9,6 +9,4 @@ const connection = knex({
   useNullAsDefault: true,
 });
 
-module.exports = {
-  connection,
-};
+module.exports = connection;

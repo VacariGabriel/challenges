@@ -2,6 +2,8 @@ async function up(knex) {
   return knex.schema.createTable('herois', (table) => {
     table.increments('id').primary();
     table.string('nome').notNullable();
+    table.string('login').notNullable();
+    table.string('senha').notNullable();
     table.decimal('lat').notNullable();
     table.decimal('lng').notNullable();
     table.string('rank').notNullable();
