@@ -8,13 +8,17 @@ const {
 
 const login = require('./controller/authController');
 
-const routes = Router();
+const unathorizedRoutes = Router();
+const authorizedRoutes = Router();
 
-routes.post('/herois', create);
-routes.get('/herois', getAll);
-routes.delete('/herois', deleteHeroi);
-routes.put('/herois', update);
+authorizedRoutes.post('/herois', create);
+authorizedRoutes.get('/herois', getAll);
+authorizedRoutes.delete('/herois', deleteHeroi);
+authorizedRoutes.put('/herois', update);
 
-routes.post('/login', login);
+unathorizedRoutes.post('/login', login);
 
-module.exports = routes;
+module.exports = {
+  unathorizedRoutes,
+  authorizedRoutes,
+};

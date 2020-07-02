@@ -1,5 +1,6 @@
 const express = require('express');
-const routes = require('./routes');
+const { unathorizedRoutes, authorizedRoutes } = require('./routes');
+const authMiddleware = require('./middlewares/auth');
 require('dotenv').config({
   path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env',
 });
@@ -7,7 +8,8 @@ require('dotenv').config({
 const app = express();
 
 app.use(express.json());
-app.use(routes);
+app.use(unathorizedRoutes);
+app.use('/authorized', authMiddleware, authorizedRoutes);
 
 if (process.env.NODE_ENV !== 'test') {
   app.listen(process.env.PORT || 3333);
