@@ -2,7 +2,7 @@ const path = require('path');
 require('dotenv').config();
 
 module.exports = {
-  development: {
+  prod: {
     client: 'sqlite3',
     connection: {
       host: process.env.DB_HOST,
@@ -14,21 +14,23 @@ module.exports = {
     migrations: {
       directory: path.resolve(__dirname, 'src', 'database', 'migrations'),
     },
-    useNullAsDefault: true,
     seeds: {
       directory: path.resolve(__dirname, 'src', 'database', 'seeds'),
     },
+    useNullAsDefault: true,
   },
 
   test: {
     client: 'sqlite3',
-    connection: ':memory:',
-    useNullAsDefault: true,
+    connection: {
+      filename: path.resolve(__dirname, 'src', 'database', 'database.sqlite'),
+    },
     migrations: {
       directory: path.join(__dirname, 'src', 'database', 'migrations'),
     },
     seeds: {
       directory: path.join(__dirname, 'src', 'database', 'seeds'),
     },
+    useNullAsDefault: true,
   },
 };

@@ -1,7 +1,6 @@
 const request = require('supertest');
 const app = require('../../src/server');
 const { generateToken } = require('../../src/controller/authController');
-const knex = require('../../src/database/dbConfig');
 
 const HEROI = {
   nome: 'Flash-test',
@@ -15,10 +14,6 @@ const HEROI = {
 const HEROI_UPDATE = { id: 1, nome: 'Flash - Atualizado', rank: 'B' };
 
 describe("Tests for 'herois'", () => {
-  beforeAll(async () => {
-    await knex.migrate.latest();
-  });
-
   it("shouldn't access authorized routes without token", async () => {
     const response = await request(app).get('/authorized/herois');
 
