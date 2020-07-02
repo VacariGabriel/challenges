@@ -14,9 +14,15 @@ const HEROI = {
 
 const HEROI_UPDATE = { id: 1, nome: 'Flash - Atualizado', rank: 'B' };
 
-describe('CRUD herois', () => {
+describe("Tests for 'herois'", () => {
   beforeAll(async () => {
     await knex.migrate.latest();
+  });
+
+  it("shouldn't access authorized routes without token", async () => {
+    const response = await request(app).get('/authorized/herois');
+
+    expect(response.status).toBe(401);
   });
 
   it("should create new 'heroi' - 201", async () => {
