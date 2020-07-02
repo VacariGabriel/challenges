@@ -1,7 +1,6 @@
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const knex = require('../database/connection');
-require('dotenv').config();
+const generateToken = require('../utils/token');
 
 const login = async (request, response) => {
   const { login, password } = request.body;
@@ -29,13 +28,4 @@ const login = async (request, response) => {
     });
 };
 
-const generateToken = (login) => {
-  return jwt.sign({ login }, process.env.SECRET, {
-    expiresIn: 300,
-  }); // 05 - minutes
-};
-
-module.exports = {
-  login,
-  generateToken,
-};
+module.exports = login;

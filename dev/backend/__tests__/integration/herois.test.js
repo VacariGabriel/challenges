@@ -1,6 +1,6 @@
 const request = require('supertest');
 const app = require('../../src/server');
-const { generateToken } = require('../../src/controller/authController');
+const generateToken = require('../../src/utils/token');
 
 const HEROI = {
   nome: 'Flash-test',

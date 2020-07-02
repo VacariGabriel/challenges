@@ -7,6 +7,12 @@ require('dotenv').config({
 
 const app = express();
 
+// const socket = require('socket.io-client')(
+//   'https://zrp-challenge-socket.herokuapp.com:443'
+// );
+
+// socket.on('occurrence', (data) => {});
+
 app.use(express.json());
 app.use(unathorizedRoutes);
 app.use('/authorized', authMiddleware, authorizedRoutes);
