@@ -1,0 +1,20 @@
+{
+  "priorities": [
+    {
+      "rank": "S",
+      "dangerLevel": "God"
+    },
+    {
+      "rank": "A",
+      "dangerLevel": "Dragon"
+    },
+    {
+      "rank": "B",
+      "dangerLevel": "Tiger"
+    },
+    {
+      "rank": "C",
+      "dangerLevel": "Wolf"
+    }
+  ]
+}

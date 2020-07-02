@@ -1,5 +1,6 @@
 const express = require('express');
 const { unathorizedRoutes, authorizedRoutes } = require('./routes');
+const listenEvent = require('./services/socket');
 const authMiddleware = require('./middlewares/auth');
 require('dotenv').config({
   path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env',
@@ -7,17 +8,12 @@ require('dotenv').config({
 
 const app = express();
 
-// const socket = require('socket.io-client')(
-//   'https://zrp-challenge-socket.herokuapp.com:443'
-// );
-
-// socket.on('occurrence', (data) => {});
-
 app.use(express.json());
 app.use(unathorizedRoutes);
 app.use('/authorized', authMiddleware, authorizedRoutes);
 
 if (process.env.NODE_ENV !== 'test') {
+  listenEvent();
   app.listen(process.env.PORT || 3333);
 }
 
