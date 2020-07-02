@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/server.js",
-    "dev": "NODE_ENV=development nodemon src/server.js --ignore __tests__",
+    "dev": "nodemon src/server.js --ignore __tests__",
     "test": "NODE_ENV=test jest --verbose",
     "knex:migrate": "knex migrate:latest --knexfile knexfile.js",
     "knex:seed": "knex seed:run --knexfile knexfile.js"

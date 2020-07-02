@@ -1,7 +1,12 @@
 const request = require('supertest');
 const app = require('../../src/server');
+const knex = require('../../src/database/dbConfig');
 
 describe('CRUD herois', () => {
+  beforeAll(async () => {
+    await knex.migrate.latest();
+  });
+
   it("should create new 'heroi' - 201", async () => {
     const heroi = {
       nome: 'Flash-test',

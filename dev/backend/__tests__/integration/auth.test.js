@@ -1,7 +1,12 @@
 const request = require('supertest');
 const app = require('../../src/server');
+const knex = require('../../src/database/dbConfig');
 
 describe('Authentication', () => {
+  beforeAll(async () => {
+    await knex.migrate.latest();
+  });
+
   it('should authenticate with valid credentials', async () => {
     const heroi = {
       login: 'bat',
