@@ -6,7 +6,7 @@ const {
   update,
 } = require('./controller/heroisController');
 
-const login = require('./controller/authController');
+const { login } = require('./controller/authController');
 
 const unathorizedRoutes = Router();
 const authorizedRoutes = Router();

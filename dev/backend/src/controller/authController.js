@@ -20,7 +20,7 @@ const login = async (request, response) => {
         return response.status(401).json({ message: 'Senha inválida' });
       }
 
-      const token = jwt.sign({ id: result[0].id }, process.env.SECRET);
+      const token = generateToken(result[0].login);
 
       return response.status(200).json({
         message: 'Sucesso',
@@ -29,4 +29,13 @@ const login = async (request, response) => {
     });
 };
 
-module.exports = login;
+const generateToken = (login) => {
+  return jwt.sign({ login }, process.env.SECRET, {
+    expiresIn: 300,
+  }); // 05 - minutes
+};
+
+module.exports = {
+  login,
+  generateToken,
+};
