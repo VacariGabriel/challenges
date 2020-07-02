@@ -1,7 +1,6 @@
 const priority = require('./priority.json');
 const haversineCalc = require('../utils/haversine');
 const knex = require('../database/connection');
-const { update } = require('../database/connection');
 
 async function getHerois(rank) {
   const herois = await knex('hero')
