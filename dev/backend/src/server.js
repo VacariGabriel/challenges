@@ -1,4 +1,6 @@
 const express = require('express');
+const helmet = require('helmet');
+const cors = require('cors');
 const { unathorizedRoutes, authorizedRoutes } = require('./routes');
 const listenEvent = require('./services/socket');
 const authMiddleware = require('./middlewares/auth');
@@ -10,6 +12,8 @@ const app = express();
 
 app.use(express.json());
 app.use(unathorizedRoutes);
+app.use(helmet());
+app.use(cors());
 app.use('/authorized', authMiddleware, authorizedRoutes);
 
 if (process.env.NODE_ENV !== 'test') {
