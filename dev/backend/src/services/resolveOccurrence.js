@@ -21,10 +21,12 @@ async function saveThreat(threat) {
   return id;
 }
 
-async function saveHistoric(threatId, heroId) {
+async function saveHistoric(threat, hero) {
   const id = await knex('historic').insert({
-    id_hero: heroId,
-    id_threat: threatId,
+    hero_name: hero.name,
+    hero_rank: hero.rank,
+    threat_name: threat.monsterName,
+    threat_rank: threat.dangerLevel,
   });
 
   return id;
@@ -83,8 +85,8 @@ async function heroForOccurrence(dataParameter) {
 
   delete heroDefeatThreat.distance;
 
-  const idAmeaca = await saveThreat(dataParameter);
-  const idHistorico = await saveHistoric(idAmeaca, heroDefeatThreat.id);
+  await saveThreat(dataParameter);
+  const idHistorico = await saveHistoric(dataParameter, heroDefeatThreat);
   await saveHeroHistoric(idHistorico, heroDefeatThreat.id);
 }
 
