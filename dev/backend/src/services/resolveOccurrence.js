@@ -85,8 +85,8 @@ async function heroForOccurrence(dataParameter) {
   delete heroDefeatThreat.distance;
 
   await saveThreat(dataParameter);
-  const idHistorico = await saveHistoric(dataParameter, heroDefeatThreat);
-  await saveHeroHistoric(idHistorico, heroDefeatThreat.id);
+  const historicId = await saveHistoric(dataParameter, heroDefeatThreat);
+  await saveHeroHistoric(historicId, heroDefeatThreat.id);
 }
 
 module.exports = heroForOccurrence;
