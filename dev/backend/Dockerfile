@@ -6,4 +6,4 @@ COPY . .
 RUN npm run knex:migrate
 RUN npm run knex:seed
 EXPOSE 3333
-CMD ["npm", "run", "dev"]
+CMD ["npm", "start"]
