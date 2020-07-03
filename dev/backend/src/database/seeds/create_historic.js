@@ -7,19 +7,19 @@ async function seed(knex) {
       threat_rank: 'God',
     },
     {
-      hero_name: 'Flash',
+      hero_name: 'Pantera Negra',
       hero_rank: 'A',
       threat_name: 'Medium Threat',
       threat_rank: 'God',
     },
     {
-      hero_name: 'Flash',
+      hero_name: 'Superman',
       hero_rank: 'B',
       threat_name: 'Weak Threat',
       threat_rank: 'God',
     },
     {
-      hero_name: 'Flash',
+      hero_name: 'Batman',
       hero_rank: 'C',
       threat_name: 'Very Weak Threat',
       threat_rank: 'God',
