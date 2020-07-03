@@ -26,10 +26,19 @@ O arquivo .env esta no repositório para fins de facilidade para o avaliador, ap
 - Express
 - Knex
 - Sqlite3
+- JWT
 - Jest
 - Docker
 
 ## Como rodar o projeto ?
+
+Clone o repositório
+
+`git clone https://github.com/VacariGabriel/challenges.git`
+
+Navegue até o diretório
+
+`cd challenges/dev/backend/`
 
 **Sem Docker**
 
@@ -50,5 +59,137 @@ O arquivo .env esta no repositório para fins de facilidade para o avaliador, ap
 ```
   docker build -t ihero:1.0.0 .
 
-  docker run -p 3333:3333 iheros:1.0.0
+  docker run -p 3333:3333 ihero:1.0.0
+```
+
+## Endpoints
+
+- /login - (POST)
+- /hero - (POST)
+- /authorized/heroes - (GET, POST, PUT e DELETE)
+- /authorized/historic - (GET)
+
+## Requests
+
+- /login - GET
+
+```json
+{
+  "login": "sait",
+  "senha": "123"
+}
+```
+
+**Response**
+
+```json
+{
+  "message": "Login realizado com sucesso",
+  "token": *token*
+}
+```
+
+- /hero - POST
+
+```json
+{
+  "name": "Death Gatling",
+  "login": "gat",
+  "password": "2025",
+  "lat": -11.409874,
+  "lng": -41.280857,
+  "rank": "A"
+}
+```
+
+**Response**
+
+```json
+{
+  "message": "Herói criado com sucesso"
+}
+```
+
+- /authorized/heroes - GET
+
+Authorization: _token_
+
+**Response**
+
+```json
+[
+  {
+    "id": 1,
+    "name": "Saitama",
+    "lat": 53.6062532721887,
+    "lng": -2.121395227451485,
+    "rank": "C"
+  },
+  {
+    "id": 2,
+    "name": "Mumen Rider",
+    "lat": -39.695807,
+    "lng": -91.235771,
+    "rank": "B"
+  }
+]
+```
+
+- /authorized/heroes - PUT
+
+Authorization: _token_
+
+```json
+{
+  "id": 2,
+  "name": "Iaian",
+  "rank": "A"
+}
+```
+
+**Response**
+
+```json
+{
+  "message": "Herói atualizado com sucesso "
+}
+```
+
+- /authorized/heroes - DELETE
+
+Authorization: _token_
+
+```json
+{
+  "id": 2
+}
+```
+
+**Response**
+
+```json
+{
+  "message": "Herói deletado com sucesso"
+}
+```
+
+- /authorized/historic - GET
+
+**Response**
+
+```json
+[
+  {
+    "hero_name": "Genos",
+    "hero_rank": "S",
+    "threat_name": "Very Strong Threat",
+    "threat_rank": "God"
+  },
+  {
+    "hero_name": "Máscara Doce",
+    "hero_rank": "A",
+    "threat_name": "Medium Threat",
+    "threat_rank": "Dragon"
+  }
+]
 ```
