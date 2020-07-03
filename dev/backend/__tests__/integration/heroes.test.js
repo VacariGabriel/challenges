@@ -85,7 +85,7 @@ describe('Tests for heroes', () => {
       .set('Authorization', `Bearer ${generateToken(HERO.login)}`)
       .send({
         id: 10000,
-        nome: HERO_UPDATE.nome,
+        name: HERO_UPDATE.name,
         rank: HERO_UPDATE.rank,
       });
 

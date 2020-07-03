@@ -84,12 +84,6 @@ const deleteHeroi = async (request, response) => {
 const update = async (request, response) => {
   const { id, name, lat, lng, rank } = request.body;
 
-  if (!id || !name || !lat || !lng || !rank) {
-    return response
-      .status(400)
-      .json({ message: 'Todos os campos devem ser preenchidos ' });
-  }
-
   knex('hero')
     .where({ id })
     .update({

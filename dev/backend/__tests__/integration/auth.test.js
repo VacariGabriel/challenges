@@ -1,16 +1,16 @@
 const request = require('supertest');
 const app = require('../../src/server');
 
+const HERO = {
+  login: 'sait',
+  password: '123',
+};
+
 describe('Authentication', () => {
   it('should authenticate with valid credentials', async () => {
-    const hero = {
-      login: 'sait',
-      senha: '123',
-    };
-
     const response = await request(app).post('/login').send({
-      login: hero.login,
-      password: hero.senha,
+      login: HERO.login,
+      password: HERO.password,
     });
 
     expect(response.status).toBe(200);
@@ -18,16 +18,18 @@ describe('Authentication', () => {
   });
 
   it("shouldn't authenticate with invalid credentials", async () => {
-    const heroi = {
-      login: 'sait',
-      senha: 'wrong',
-    };
-
     const response = await request(app).post('/login').send({
-      login: heroi.login,
-      password: heroi.senha,
+      login: HERO.login,
+      password: 'wrongPassword',
     });
 
     expect(response.status).toBe(401);
+  });
+
+  it("shouldn't login without login or password property", async () => {
+    const response = await request(app).post('/login').send({
+      password: HERO.password,
+    });
+    expect(response.status).toBe(400);
   });
 });
