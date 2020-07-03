@@ -13,13 +13,13 @@ const showHistoric = require('./controller/historicController');
 const unathorizedRoutes = Router();
 const authorizedRoutes = Router();
 
-authorizedRoutes.post('/heroes', create);
 authorizedRoutes.get('/heroes', getAll);
 authorizedRoutes.delete('/heroes', deleteHeroi);
 authorizedRoutes.put('/heroes', update);
 
 authorizedRoutes.get('/historic', showHistoric);
 
+unathorizedRoutes.post('/hero', create);
 unathorizedRoutes.post('/login', login);
 
 module.exports = {
