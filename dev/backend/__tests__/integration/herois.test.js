@@ -15,14 +15,14 @@ const HERO_UPDATE = { id: 1, name: 'Flash - Atualizado', rank: 'B' };
 
 describe('Tests for heroes', () => {
   it("shouldn't access authorized routes without token", async () => {
-    const response = await request(app).get('/authorized/herois');
+    const response = await request(app).get('/authorized/heroes');
 
     expect(response.status).toBe(401);
   });
 
   it('should create new hero - 201', async () => {
     const response = await request(app)
-      .post('/authorized/herois')
+      .post('/authorized/heroes')
       .set('Authorization', `Bearer ${generateToken(HERO.login)}`)
       .send({
         name: HERO.name,
@@ -38,7 +38,7 @@ describe('Tests for heroes', () => {
 
   it("shouldn't create hero without a property - 400", async () => {
     const response = await request(app)
-      .post('/authorized/herois')
+      .post('/authorized/heroes')
       .set('Authorization', `Bearer ${generateToken(HERO.login)}`)
       .send({
         name: HERO.name,
@@ -52,7 +52,7 @@ describe('Tests for heroes', () => {
 
   it('should get all heroes - 200', async () => {
     const response = await request(app)
-      .get('/authorized/herois')
+      .get('/authorized/heroes')
       .set('Authorization', `Bearer ${generateToken(HERO.login)}`);
 
     expect(response.status).toBe(200);
@@ -63,7 +63,7 @@ describe('Tests for heroes', () => {
     const id = 100;
 
     const response = await request(app)
-      .delete('/authorized/herois')
+      .delete('/authorized/heroes')
       .set('Authorization', `Bearer ${generateToken(HERO.login)}`)
       .send({
         id,
@@ -74,7 +74,7 @@ describe('Tests for heroes', () => {
 
   it('should update hero - 200', async () => {
     const response = await request(app)
-      .put('/authorized/herois')
+      .put('/authorized/heroes')
       .set('Authorization', `Bearer ${generateToken(HERO.login)}`)
       .send({
         id: HERO_UPDATE.id,
@@ -87,7 +87,7 @@ describe('Tests for heroes', () => {
 
   it("shouldn't update 'heroi' - 200", async () => {
     const response = await request(app)
-      .put('/authorized/herois')
+      .put('/authorized/heroes')
       .set('Authorization', `Bearer ${generateToken(HERO.login)}`)
       .send({
         id: 10000,

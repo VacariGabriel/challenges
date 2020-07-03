@@ -2,11 +2,11 @@ const priority = require('./priority.json');
 const haversineCalc = require('../utils/haversine');
 const knex = require('../database/connection');
 
-async function getHerois(rank) {
-  const herois = await knex('hero')
+async function getHeroes(rank) {
+  const heroes = await knex('hero')
     .where({ rank })
     .select('id', 'name', 'lat', 'lng', 'rank');
-  return herois;
+  return heroes;
 }
 
 async function saveThreat(threat) {
@@ -56,7 +56,7 @@ async function heroForOccurrence(dataParameter) {
     }
   });
 
-  const heroes = await getHerois(heroThreat.rank);
+  const heroes = await getHeroes(heroThreat.rank);
 
   let heroDefeatThreat = heroes
     .map((hero) => {
