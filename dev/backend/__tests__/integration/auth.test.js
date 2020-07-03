@@ -4,7 +4,7 @@ const app = require('../../src/server');
 describe('Authentication', () => {
   it('should authenticate with valid credentials', async () => {
     const hero = {
-      login: 'bat',
+      login: 'sait',
       senha: '123',
     };
 
@@ -19,7 +19,7 @@ describe('Authentication', () => {
 
   it("shouldn't authenticate with invalid credentials", async () => {
     const heroi = {
-      login: 'bat',
+      login: 'sait',
       senha: 'wrong',
     };
 

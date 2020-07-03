@@ -3,15 +3,15 @@ const app = require('../../src/server');
 const generateToken = require('../../src/utils/token');
 
 const HERO = {
-  name: 'Flash-test',
-  login: 'flash-test',
+  name: 'Saitama',
+  login: 'sait',
   password: '123123',
   lat: -23.5629,
   lng: -46.6544,
   rank: 'S',
 };
 
-const HERO_UPDATE = { id: 1, name: 'Flash - Atualizado', rank: 'B' };
+const HERO_UPDATE = { id: 1, name: 'Saitama - Update', rank: 'B' };
 
 describe('Tests for heroes', () => {
   it("shouldn't access authorized routes without token", async () => {
@@ -21,31 +21,25 @@ describe('Tests for heroes', () => {
   });
 
   it('should create new hero - 201', async () => {
-    const response = await request(app)
-      .post('/authorized/heroes')
-      .set('Authorization', `Bearer ${generateToken(HERO.login)}`)
-      .send({
-        name: HERO.name,
-        login: HERO.login,
-        password: HERO.password,
-        lat: HERO.lat,
-        lng: HERO.lng,
-        rank: HERO.rank,
-      });
+    const response = await request(app).post('/hero').send({
+      name: HERO.name,
+      login: HERO.login,
+      password: HERO.password,
+      lat: HERO.lat,
+      lng: HERO.lng,
+      rank: HERO.rank,
+    });
 
     expect(response.status).toBe(201);
   });
 
   it("shouldn't create hero without a property - 400", async () => {
-    const response = await request(app)
-      .post('/authorized/heroes')
-      .set('Authorization', `Bearer ${generateToken(HERO.login)}`)
-      .send({
-        name: HERO.name,
-        login: HERO.login,
-        password: HERO.password,
-        rank: HERO.rank,
-      });
+    const response = await request(app).post('/hero').send({
+      name: HERO.name,
+      login: HERO.login,
+      password: HERO.password,
+      rank: HERO.rank,
+    });
 
     expect(response.status).toBe(400);
   });
