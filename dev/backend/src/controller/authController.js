@@ -5,6 +5,12 @@ const generateToken = require('../utils/token');
 const authLogin = async (request, response) => {
   const { login, password } = request.body;
 
+  if (!login || !password) {
+    return response
+      .status(400)
+      .json({ message: 'Login e senha precisam ser preenchidos' });
+  }
+
   knex('hero')
     .select('*')
     .where({ login })

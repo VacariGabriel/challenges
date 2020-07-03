@@ -4,6 +4,12 @@ const knex = require('../database/connection');
 const create = async (request, response) => {
   const { name, login, password, lat, lng, rank } = request.body;
 
+  if (!name || !login || !password || !lat || !lng || !rank) {
+    return response
+      .status(400)
+      .json({ message: 'Todos os campos devem ser preenchidos ' });
+  }
+
   const passwordEncrypted = bcrypt.hashSync(password, 10);
 
   await knex('hero')
@@ -77,6 +83,12 @@ const deleteHeroi = async (request, response) => {
 
 const update = async (request, response) => {
   const { id, name, lat, lng, rank } = request.body;
+
+  if (!id || !name || !lat || !lng || !rank) {
+    return response
+      .status(400)
+      .json({ message: 'Todos os campos devem ser preenchidos ' });
+  }
 
   knex('hero')
     .where({ id })
