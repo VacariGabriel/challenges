@@ -76,7 +76,7 @@ Navegue até o diretório
 ```json
 {
   "login": "sait",
-  "senha": "123"
+  "password": "123"
 }
 ```
 
