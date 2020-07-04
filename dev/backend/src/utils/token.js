@@ -8,9 +8,7 @@ const generateToken = (login) => {
 };
 
 const decodeToken = (token) => {
-  console.log(token);
   const parts = token.split(' ');
-  console.log(parts);
   const login = jwt.verify(parts[1], process.env.SECRET, (err, decoded) => {
     return decoded.login;
   });

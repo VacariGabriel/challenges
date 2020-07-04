@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const knex = require('../database/connection');
-const { decodeToken, destroyToken } = require('../utils/token');
+const { decodeToken } = require('../utils/token');
 
 const create = async (request, response) => {
   const { name, login, password, lat, lng, rank } = request.body;
@@ -14,8 +14,8 @@ const create = async (request, response) => {
   const hero = await knex('hero')
     .where({ login, name })
     .select('*')
-    .then((hero) => {
-      return hero;
+    .then((data) => {
+      return data;
     });
 
   if (hero.length) {
@@ -79,8 +79,8 @@ const deleteHeroi = async (request, response) => {
   const result = await knex('hero')
     .where({ login })
     .select('id')
-    .then((result) => {
-      return result;
+    .then((data) => {
+      return data;
     });
 
   if (!result.length) {
@@ -111,6 +111,26 @@ const deleteHeroi = async (request, response) => {
 const update = async (request, response) => {
   const { id, name, lat, lng, rank } = request.body;
 
+  const token = request.headers.authorization;
+  const login = decodeToken(token);
+
+  const result = await knex('hero')
+    .where({ login })
+    .select('id')
+    .then((data) => {
+      return data;
+    });
+
+  if (!result.length) {
+    return response.status(400).json({ message: 'Herói não encontrado ' });
+  }
+
+  if (result[0].id !== id) {
+    return response.status(400).json({
+      message: 'Você não pode atualizar um herói que não seja você',
+    });
+  }
+
   knex('hero')
     .where({ id })
     .update({
@@ -119,11 +139,7 @@ const update = async (request, response) => {
       lng,
       rank,
     })
-    .then((result) => {
-      if (result === 0) {
-        return response.status(204).send();
-      }
-
+    .then(() => {
       return response
         .status(200)
         .json({ message: 'Herói atualizado com sucesso ' });
