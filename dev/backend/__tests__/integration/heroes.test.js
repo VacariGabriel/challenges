@@ -3,6 +3,7 @@ const app = require('../../src/server');
 const { generateToken } = require('../../src/utils/token');
 
 const HERO = {
+  id: 4,
   name: 'Saitama',
   login: 'sait',
   password: '123123',
@@ -70,7 +71,7 @@ describe('Tests for heroes', () => {
       .put('/authorized/heroes')
       .set('Authorization', `Bearer ${generateToken(HERO.login)}`)
       .send({
-        id: HERO_UPDATE.id,
+        id: HERO.id,
         name: HERO_UPDATE.name,
         rank: HERO_UPDATE.rank,
       });
@@ -78,7 +79,7 @@ describe('Tests for heroes', () => {
     expect(response.status).toBe(200);
   });
 
-  it("shouldn't update 'heroi' - 200", async () => {
+  it("shouldn't update if it's not your own id - 200", async () => {
     const response = await request(app)
       .put('/authorized/heroes')
       .set('Authorization', `Bearer ${generateToken(HERO.login)}`)
@@ -88,6 +89,6 @@ describe('Tests for heroes', () => {
         rank: HERO_UPDATE.rank,
       });
 
-    expect(response.status).toBe(204);
+    expect(response.status).toBe(400);
   });
 });
