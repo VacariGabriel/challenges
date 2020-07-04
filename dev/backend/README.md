@@ -66,7 +66,7 @@ Navegue até o diretório
 
 - /login - (POST)
 - /hero - (POST)
-- /authorized/heroes - (GET, POST, PUT e DELETE)
+- /authorized/hero - (GET, PUT e DELETE)
 - /authorized/historic - (GET)
 
 ## Requests
@@ -110,7 +110,7 @@ Navegue até o diretório
 }
 ```
 
-- /authorized/heroes - GET
+- /authorized/hero - GET
 
 Authorization: _token_
 
@@ -135,7 +135,7 @@ Authorization: _token_
 ]
 ```
 
-- /authorized/heroes - PUT
+- /authorized/hero - PUT
 
 Authorization: _token_
 
@@ -155,7 +155,7 @@ Authorization: _token_
 }
 ```
 
-- /authorized/heroes - DELETE
+- /authorized/hero - DELETE
 
 Authorization: _token_
 
