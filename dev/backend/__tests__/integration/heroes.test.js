@@ -16,7 +16,7 @@ const HERO_UPDATE = { id: 1, name: 'Saitama - Update', rank: 'B' };
 
 describe('Tests for heroes', () => {
   it("shouldn't access authorized routes without token", async () => {
-    const response = await request(app).get('/authorized/heroes');
+    const response = await request(app).get('/authorized/hero');
 
     expect(response.status).toBe(401);
   });
@@ -34,7 +34,7 @@ describe('Tests for heroes', () => {
 
   it('should get all heroes - 200', async () => {
     const response = await request(app)
-      .get('/authorized/heroes')
+      .get('/authorized/hero')
       .set('Authorization', `Bearer ${generateToken(HERO.login)}`);
 
     expect(response.status).toBe(200);
@@ -45,7 +45,7 @@ describe('Tests for heroes', () => {
     const id = 100;
 
     const response = await request(app)
-      .delete('/authorized/heroes')
+      .delete('/authorized/hero')
       .set('Authorization', `Bearer ${generateToken(HERO.login)}`)
       .send({
         id,
@@ -57,7 +57,7 @@ describe('Tests for heroes', () => {
   it("shouldn't delete if it's not your own id", async () => {
     const anotherId = 18;
     const response = await request(app)
-      .delete('/authorized/heroes')
+      .delete('/authorized/hero')
       .set('Authorization', `Bearer ${generateToken(HERO.login)}`)
       .send({
         anotherId,
@@ -68,7 +68,7 @@ describe('Tests for heroes', () => {
 
   it('should update hero - 200', async () => {
     const response = await request(app)
-      .put('/authorized/heroes')
+      .put('/authorized/hero')
       .set('Authorization', `Bearer ${generateToken(HERO.login)}`)
       .send({
         id: HERO.id,
@@ -81,7 +81,7 @@ describe('Tests for heroes', () => {
 
   it("shouldn't update if it's not your own id - 200", async () => {
     const response = await request(app)
-      .put('/authorized/heroes')
+      .put('/authorized/hero')
       .set('Authorization', `Bearer ${generateToken(HERO.login)}`)
       .send({
         id: 10000,
