@@ -13,9 +13,9 @@ const showHistoric = require('./controller/historicController');
 const unathorizedRoutes = Router();
 const authorizedRoutes = Router();
 
-authorizedRoutes.get('/heroes', getAll);
-authorizedRoutes.delete('/heroes', deleteHeroi);
-authorizedRoutes.put('/heroes', update);
+authorizedRoutes.get('/hero', getAll);
+authorizedRoutes.delete('/hero', deleteHeroi);
+authorizedRoutes.put('/hero', update);
 
 authorizedRoutes.get('/historic', showHistoric);
 
