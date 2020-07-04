@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const knex = require('../database/connection');
-const generateToken = require('../utils/token');
+const { generateToken } = require('../utils/token');
 
 const authLogin = async (request, response) => {
   const { login, password } = request.body;

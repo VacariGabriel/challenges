@@ -71,7 +71,6 @@ async function heroForOccurrence(dataParameter) {
       };
     })
     .reduce((final, current) => {
-      console.log(final, current);
       return current.distance < final.distance ? current : final;
     });
 

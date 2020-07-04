@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const knex = require('../database/connection');
+const { decodeToken, destroyToken } = require('../utils/token');
 
 const create = async (request, response) => {
   const { name, login, password, lat, lng, rank } = request.body;
@@ -10,6 +11,16 @@ const create = async (request, response) => {
       .json({ message: 'Todos os campos devem ser preenchidos ' });
   }
 
+  const hero = await knex('hero')
+    .where({ login, name })
+    .select('*')
+    .then((hero) => {
+      return hero;
+    });
+
+  if (hero.length) {
+    return response.status(200).json({ message: 'Login ja existente' });
+  }
   const passwordEncrypted = bcrypt.hashSync(password, 10);
 
   await knex('hero')
@@ -62,14 +73,30 @@ const deleteHeroi = async (request, response) => {
     return response.status(400).json({ message: 'ID do herói é obrigatório ' });
   }
 
+  const token = request.headers.authorization;
+  const login = decodeToken(token);
+
+  const result = await knex('hero')
+    .where({ login })
+    .select('id')
+    .then((result) => {
+      return result;
+    });
+
+  if (!result.length) {
+    return response.status(400).json({ message: 'Herói não encontrado ' });
+  }
+
+  if (result[0].id !== id) {
+    return response.status(400).json({
+      message: 'Você não pode deletar um herói que não seja você mesmo',
+    });
+  }
+
   await knex('hero')
     .where({ id })
     .delete()
-    .then((data) => {
-      if (data === 0) {
-        return response.status(204).send();
-      }
-
+    .then(() => {
       return response
         .status(200)
         .json({ message: 'Herói deletado com sucesso' });
