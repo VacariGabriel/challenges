@@ -1,4 +1,4 @@
-const generateToken = require('../../src/utils/token');
+const { generateToken, decodeToken } = require('../../src/utils/token');
 const haversineCalc = require('../../src/utils/haversine');
 
 const HERO = {
@@ -17,6 +17,16 @@ describe('Tests for utils', () => {
     const token = generateToken(HERO.login);
 
     expect(token);
+  });
+
+  it('should decode token', () => {
+    let token = generateToken(HERO.login);
+
+    token = `Bearer ${token}`;
+
+    const login = decodeToken(token);
+
+    expect(login);
   });
 
   it('should calculate distance between hero and threat', () => {

@@ -1,6 +1,6 @@
 const request = require('supertest');
 const app = require('../../src/server');
-const generateToken = require('../../src/utils/token');
+const { generateToken } = require('../../src/utils/token');
 
 const HERO = {
   name: 'Saitama',
@@ -18,19 +18,6 @@ describe('Tests for heroes', () => {
     const response = await request(app).get('/authorized/heroes');
 
     expect(response.status).toBe(401);
-  });
-
-  it('should create new hero - 201', async () => {
-    const response = await request(app).post('/hero').send({
-      name: HERO.name,
-      login: HERO.login,
-      password: HERO.password,
-      lat: HERO.lat,
-      lng: HERO.lng,
-      rank: HERO.rank,
-    });
-
-    expect(response.status).toBe(201);
   });
 
   it("shouldn't create hero without a property - 400", async () => {
@@ -53,7 +40,7 @@ describe('Tests for heroes', () => {
     expect(response.body[0]).toHaveProperty('name');
   });
 
-  it("shouldn't delete hero by id - 204", async () => {
+  it("shouldn't delete hero by nonexistent id - 204", async () => {
     const id = 100;
 
     const response = await request(app)
@@ -63,7 +50,19 @@ describe('Tests for heroes', () => {
         id,
       });
 
-    expect(response.status).toBe(204);
+    expect(response.status).toBe(400);
+  });
+
+  it("shouldn't delete if it's not your own id", async () => {
+    const anotherId = 18;
+    const response = await request(app)
+      .delete('/authorized/heroes')
+      .set('Authorization', `Bearer ${generateToken(HERO.login)}`)
+      .send({
+        anotherId,
+      });
+
+    expect(response.status).toBe(400);
   });
 
   it('should update hero - 200', async () => {
